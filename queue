@@ -1,0 +1,83 @@
+// Online C++ compiler to run C++ program online
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+
+// Define a structure for the queue
+typedef struct {
+    int items[MAX];
+    int front, rear;
+} Queue;
+
+// Function to initialize the queue
+void initializeQueue(Queue *q) {
+    q->front = -1;
+    q->rear = -1;
+}
+
+// Function to check if the queue is empty
+int isEmpty(Queue *q) {
+    return q->front == -1;
+}
+
+// Function to check if the queue is full
+int isFull(Queue *q) {
+    return q->rear == MAX - 1;
+}
+
+// Function to add an item to the queue
+void enqueue(Queue *q, int item) {
+    if (isFull(q)) {
+        printf("Queue is full!\n");
+        return;
+    }
+    if (isEmpty(q)) {
+        q->front = 0;
+    }
+    q->items[++(q->rear)] = item;
+}
+
+// Function to remove an item from the queue
+int dequeue(Queue *q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty!\n");
+        return -1; // Return -1 to indicate queue is empty
+    }
+    int item = q->items[q->front];
+    if (q->front >= q->rear) {
+        q->front = q->rear = -1; // Queue is now empty
+    } else {
+        q->front++;
+    }
+    return item;
+}
+
+// Function to display the queue
+void displayQueue(Queue *q) {
+    if (isEmpty(q)) {
+        printf("Queue is empty!\n");
+        return;
+    }
+    printf("Queue elements:\n");
+    for (int i = q->front; i <= q->rear; i++) {
+        printf("%d ", q->items[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    Queue q;
+    initializeQueue(&q);
+
+    enqueue(&q, 10);
+    enqueue(&q, 20);
+    enqueue(&q, 30);
+
+    displayQueue(&q);
+
+    printf("Dequeued: %d\n", dequeue(&q));
+    displayQueue(&q);
+
+    return 0;
+}
